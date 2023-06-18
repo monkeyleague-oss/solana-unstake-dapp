@@ -1,0 +1,21 @@
+.error-content {
+    color: red;
+}
+
+ul.staking-data-cards {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.staking-data-cards li {
+    flex: 1 0 200px; /* Adjust this value to change the card width */
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}

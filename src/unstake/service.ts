@@ -111,13 +111,14 @@ export function createUnStakeService(
             userAccount: userAccountData ? parseUserStakingAccount(userAccountData) : undefined,
         };
         return {
-            vaultTotal: (accounts.vault.amount / BigInt(10 ** 6)).toString(),
-            userTotal: accounts.userAccount?.amount.toString() || '0',
+            vaultTotal: (accounts.vault.amount / BigInt(10 ** 6)).toLocaleString(),
+            userTotal: accounts.userAccount?.amount.div(new BN(BigInt(10 ** 6).toString(10))).toLocaleString() || '0',
             userRewards: new BN(accounts.vault.amount.toString())
                 .mul(new BN(accounts.userAccount?.poolSharesAmount as any))
                 .div(new BN(accounts.stakingAccount.totalPoolShares as any))
                 .sub(new BN(accounts.userAccount?.amount as any))
-                .toString(),
+                .div(new BN(BigInt(10 ** 6).toString(10)))
+                .toLocaleString(),
         };
     }
 
