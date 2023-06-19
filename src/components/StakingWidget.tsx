@@ -58,13 +58,17 @@ export const StakingWidget: FC = () => {
                 <h2>Staking Program Details</h2>
                 <ul className="staking-data-cards">
                     {[
-                        { t: 'Vault Total', v: stakingOnChainData?.vaultTotal?.toString() },
-                        { t: 'User Total', v: stakingOnChainData?.userTotal?.toString() },
-                        { t: 'User Rewards', v: stakingOnChainData?.userRewards?.toString() },
+                        { t: 'User Total (MBS)', v: stakingOnChainData?.userTotal?.toString() },
+                        { t: 'User Rewards (MBS)', v: stakingOnChainData?.userRewards?.toString() },
+                        { t: 'Vault Total (MBS)', v: stakingOnChainData?.vaultTotal?.toString() },
+                        ...Object.entries(stakingOnChainData?.accounts || {}).map(([t, addr]) => ({
+                            t,
+                            v: addr.toBase58(),
+                        })),
                     ].map(({ t, v }) => (
                         <li key={t}>
                             <span style={{ fontWeight: 'bold' }}>{t}: </span>
-                            <h3 style={{ color: 'green' }}>{v ? `${v} MBS` : 'loading...'}</h3>
+                            <h3 style={{ color: 'green' }}>{v ? v : 'loading...'}</h3>
                         </li>
                     ))}
                 </ul>

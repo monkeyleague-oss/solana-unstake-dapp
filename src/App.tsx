@@ -18,7 +18,14 @@ const App: FC = () => {
                 </SolanaContext>
             </main>
             <footer className="footer">
-                <a href="/solana-unstake-dapp/legal.html">Terms Of Use</a>
+                <div>
+                    <a className="link-item" href="https://github.com/monkeyleague-oss/solana-unstake-dapp">
+                        Github
+                    </a>
+                    <a className="link-item" href="/solana-unstake-dapp/legal.html">
+                        Terms Of Use
+                    </a>
+                </div>
                 <p>© 2023. All Rights Reserved MonkeyLeague®.</p>
             </footer>
         </div>

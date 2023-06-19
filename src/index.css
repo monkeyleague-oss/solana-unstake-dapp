@@ -47,6 +47,8 @@ code {
     padding: 1em;
 }
 
-.footer a {
+.footer .link-item {
     color: #ffffff;
+    display: block;
+    margin-bottom: 0.25em;
 }

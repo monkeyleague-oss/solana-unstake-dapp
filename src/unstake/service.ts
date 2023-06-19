@@ -73,6 +73,12 @@ export type StakingProgramData = {
     vaultTotal: BN;
     userTotal: BN;
     userRewards: BN;
+    accounts: {
+        program: PublicKey;
+        staking: PublicKey;
+        userStaking: PublicKey;
+        vault: PublicKey;
+    };
 };
 
 export function createUnStakeService(
@@ -132,6 +138,12 @@ export function createUnStakeService(
             vaultTotal,
             userTotal,
             userRewards,
+            accounts: {
+                program: PROGRAM_ID,
+                staking: stakingAddress,
+                userStaking: userStakingAddress,
+                vault: vaultAddress,
+            },
         };
     }
 
