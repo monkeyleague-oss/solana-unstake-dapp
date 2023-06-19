@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/solana-unstake-dapp/static/css/main.56b6481c.css",
-    "main.js": "/solana-unstake-dapp/static/js/main.049409f1.js",
+    "main.css": "/solana-unstake-dapp/static/css/main.f161b441.css",
+    "main.js": "/solana-unstake-dapp/static/js/main.ae6cc249.js",
     "static/js/148.842f07d2.chunk.js": "/solana-unstake-dapp/static/js/148.842f07d2.chunk.js",
     "index.html": "/solana-unstake-dapp/index.html",
-    "main.56b6481c.css.map": "/solana-unstake-dapp/static/css/main.56b6481c.css.map",
-    "main.049409f1.js.map": "/solana-unstake-dapp/static/js/main.049409f1.js.map",
+    "main.f161b441.css.map": "/solana-unstake-dapp/static/css/main.f161b441.css.map",
+    "main.ae6cc249.js.map": "/solana-unstake-dapp/static/js/main.ae6cc249.js.map",
     "148.842f07d2.chunk.js.map": "/solana-unstake-dapp/static/js/148.842f07d2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.56b6481c.css",
-    "static/js/main.049409f1.js"
+    "static/css/main.f161b441.css",
+    "static/js/main.ae6cc249.js"
   ]
 }
