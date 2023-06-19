@@ -1,6 +1,7 @@
 import { FC, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { TextField, Button } from '@mui/material';
+import { clusterApiUrl } from '@solana/web3.js';
 
 require('@solana/wallet-adapter-react-ui/styles.css');
 
@@ -15,11 +16,9 @@ const NetworkSelector: FC<{ onNetworkChange: (network: string) => void }> = ({ o
     } = useForm<{ url: string }>();
 
     useEffect(() => {
-        const val = window.localStorage.getItem(LOCAL_STORAGE_RPC_URL_KEY);
-        if (val) {
-            onNetworkChange(val);
-            setValue('url', val);
-        }
+        const network = window.localStorage.getItem(LOCAL_STORAGE_RPC_URL_KEY) || clusterApiUrl('mainnet-beta');
+        setValue('url', network);
+        onNetworkChange(network);
     }, [setValue, onNetworkChange]);
 
     return (
