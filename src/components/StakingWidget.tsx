@@ -1,7 +1,10 @@
 import { FC, useEffect, useMemo, useState } from 'react';
-import { createUnStakeService } from '../unstake/service';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { Buffer } from 'buffer';
+import { Button } from '@mui/material';
+import { StakingProgramData, createUnStakeService } from '../unstake/service';
+import BN from 'bn.js';
+import { MBS_DECIMALS_MULTIPLE } from '../unstake/constants';
 
 (window as any).Buffer = Buffer;
 
@@ -21,14 +24,7 @@ export const StakingWidget: FC = () => {
                 : null,
         [connection, walletState]
     );
-    const [stakingOnChainData, setStakingOnChainData] = useState<
-        | {
-              vaultTotal: string;
-              userTotal: string;
-              userRewards: string;
-          }
-        | { error: string }
-    >();
+    const [stakingOnChainData, setStakingOnChainData] = useState<StakingProgramData | { error: string }>();
 
     useEffect(() => {
         if (!service) {
@@ -56,21 +52,32 @@ export const StakingWidget: FC = () => {
             </div>
         );
     } else {
+        const amount = new BN(stakingOnChainData?.userTotal || '0').mul(MBS_DECIMALS_MULTIPLE);
         Content = (
             <>
                 <h2>Staking Program Details</h2>
                 <ul className="staking-data-cards">
                     {[
-                        { t: 'Vault Total', v: stakingOnChainData?.vaultTotal },
-                        { t: 'User Total', v: stakingOnChainData?.userTotal },
-                        { t: 'User Rewards', v: stakingOnChainData?.userRewards },
+                        { t: 'Vault Total', v: stakingOnChainData?.vaultTotal?.toString() },
+                        { t: 'User Total', v: stakingOnChainData?.userTotal?.toString() },
+                        { t: 'User Rewards', v: stakingOnChainData?.userRewards?.toString() },
                     ].map(({ t, v }) => (
-                        <li>
+                        <li key={t}>
                             <span style={{ fontWeight: 'bold' }}>{t}: </span>
                             <h3 style={{ color: 'green' }}>{v ? `${v} MBS` : 'loading...'}</h3>
                         </li>
                     ))}
                 </ul>
+                <Button
+                    type="button"
+                    disabled={false === amount.gt(new BN(0))}
+                    variant="contained"
+                    color="primary"
+                    onClick={() => service?.unStake(amount)}
+                    size="large"
+                >
+                    Unstake
+                </Button>
             </>
         );
     }

@@ -18,7 +18,8 @@ const App: FC = () => {
                 </SolanaContext>
             </main>
             <footer className="footer">
-                <a href="/">terms of use</a>
+                <a href="/legal.html">Terms Of Use</a>
+                <p>© 2023. All Rights Reserved MonkeyLeague®.</p>
             </footer>
         </div>
     );

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { TextField, Button } from '@mui/material';
 
@@ -13,23 +13,21 @@ const NetworkSelector: FC<{ onNetworkChange: (network: string) => void }> = ({ o
         setValue,
         formState: { errors },
     } = useForm<{ url: string }>();
-    const [isSubmitted, setIsSubmitted] = useState(false);
 
     useEffect(() => {
         const val = window.localStorage.getItem(LOCAL_STORAGE_RPC_URL_KEY);
         if (val) {
             onNetworkChange(val);
             setValue('url', val);
-            setIsSubmitted(true);
         }
     }, [setValue, onNetworkChange]);
 
     return (
         <form
+            style={{ display: 'flex' }}
             onSubmit={handleSubmit(({ url }) => {
                 onNetworkChange(url);
                 window.localStorage.setItem(LOCAL_STORAGE_RPC_URL_KEY, url);
-                setIsSubmitted(true);
             })}
         >
             <Controller
@@ -55,10 +53,13 @@ const NetworkSelector: FC<{ onNetworkChange: (network: string) => void }> = ({ o
                         helperText={errors?.url?.message}
                         label="solana rpc url"
                         variant="outlined"
-                        fullWidth={true}
+                        sx={{ width: 300 }}
                     />
                 )}
             />
+            <Button type="submit" variant="contained" color="primary">
+                Save
+            </Button>
         </form>
     );
 };

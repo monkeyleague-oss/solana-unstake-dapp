@@ -1,12 +1,18 @@
 import { AnchorProvider, BN, IdlAccounts, Program } from '@project-serum/anchor';
 import { AccountInfo, Connection, PublicKey } from '@solana/web3.js';
 import { IDL, MonkeyStaking } from './idl';
-import { PROGRAM_ID, TOKEN_PROGRAM_ID, MBS, SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID } from './constants';
+import {
+    PROGRAM_ID,
+    TOKEN_PROGRAM_ID,
+    MBS,
+    SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
+    MBS_DECIMALS_MULTIPLE,
+} from './constants';
 import { AccountLayout, RawAccount } from '@solana/spl-token';
 
 type MonkeyIdlAccounts = IdlAccounts<MonkeyStaking>;
 
-export type StakingMBSDataAccounts = {
+type StakingMBSDataAccounts = {
     vault: RawAccount;
     stakingAccount: MonkeyIdlAccounts['StakingAccount'];
     userAccount?: MonkeyIdlAccounts['UserStakingAccount'];
@@ -63,7 +69,12 @@ function getUserStakingAccountAddress(
     return findPDA([anchorWallet.publicKey.toBuffer()], PROGRAM_ID);
 }
 
-// Factory function
+export type StakingProgramData = {
+    vaultTotal: BN;
+    userTotal: BN;
+    userRewards: BN;
+};
+
 export function createUnStakeService(
     connection: Connection,
     anchorWallet: Partial<AnchorProvider['wallet']> & { publicKey: PublicKey }
@@ -99,7 +110,7 @@ export function createUnStakeService(
             .rpc();
     }
 
-    async function getStakingOnChainData() {
+    async function getStakingOnChainData(): Promise<StakingProgramData> {
         const addresses: PublicKey[] = [vaultAddress, stakingAddress, userStakingAddress];
         const { value } = await connection.getMultipleAccountsInfoAndContext(addresses);
         const [vaultData, stakingAccountData, userAccountData] = value;
@@ -110,15 +121,17 @@ export function createUnStakeService(
             stakingAccount: parseStakingAccount(stakingAccountData),
             userAccount: userAccountData ? parseUserStakingAccount(userAccountData) : undefined,
         };
+        const vaultTotal = new BN(accounts.vault.amount.toString()).div(MBS_DECIMALS_MULTIPLE);
+        const userTotal = accounts.userAccount?.amount.div(MBS_DECIMALS_MULTIPLE) || new BN('0');
+        const userRewards = new BN(accounts.vault.amount.toString())
+            .mul(new BN(accounts.userAccount?.poolSharesAmount as any))
+            .div(new BN(accounts.stakingAccount.totalPoolShares as any))
+            .sub(new BN(accounts.userAccount?.amount as any))
+            .div(new BN(MBS_DECIMALS_MULTIPLE));
         return {
-            vaultTotal: (accounts.vault.amount / BigInt(10 ** 6)).toLocaleString(),
-            userTotal: accounts.userAccount?.amount.div(new BN(BigInt(10 ** 6).toString(10))).toLocaleString() || '0',
-            userRewards: new BN(accounts.vault.amount.toString())
-                .mul(new BN(accounts.userAccount?.poolSharesAmount as any))
-                .div(new BN(accounts.stakingAccount.totalPoolShares as any))
-                .sub(new BN(accounts.userAccount?.amount as any))
-                .div(new BN(BigInt(10 ** 6).toString(10)))
-                .toLocaleString(),
+            vaultTotal,
+            userTotal,
+            userRewards,
         };
     }
 

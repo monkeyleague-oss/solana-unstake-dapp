@@ -41,5 +41,12 @@ code {
     grid-row: 3 / 4;
     background-color: #512da8;
     color: #ffffff;
-    padding: 0.5em;
+    font-size: xx-small;
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+}
+
+.footer a {
+    color: #ffffff;
 }
