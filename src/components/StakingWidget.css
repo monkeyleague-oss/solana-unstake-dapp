@@ -20,3 +20,27 @@ ul.staking-data-cards {
     background-color: #f9f9f9;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
+
+.button {
+    padding: 1em;
+    border-width: 0;
+    border-style: solid;
+    border-color: #e5e7eb;
+    --tw-bg-opacity: 1;
+    background-color: rgb(232 60 141 / var(--tw-bg-opacity));
+    --tw-text-opacity: 1;
+    color: rgb(253 239 80 / var(--tw-text-opacity));
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    height: 3rem;
+    width: 15rem;
+    cursor: pointer;
+}
+
+.button:disabled {
+    --tw-bg-opacity: 0.6;
+    --tw-text-opacity: 0.6;
+    cursor: not-allowed;
+}

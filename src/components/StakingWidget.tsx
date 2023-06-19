@@ -25,6 +25,7 @@ export const StakingWidget: FC = () => {
         [connection, walletState]
     );
     const [stakingOnChainData, setStakingOnChainData] = useState<StakingProgramData | { error: string }>();
+    const [txnSignature, setTxnSignature] = useState<string>();
 
     useEffect(() => {
         if (!service) {
@@ -43,11 +44,11 @@ export const StakingWidget: FC = () => {
 
     let Content: JSX.Element | undefined;
     if (!walletState.publicKey) {
-        Content = <h2 className="default-content">Connect Your Wallet...</h2>;
+        Content = <h1 className="default-content">Connect Your Wallet...</h1>;
     } else if (stakingOnChainData && 'error' in stakingOnChainData) {
         Content = (
             <div className="error-content">
-                <h2>Something went wrong...</h2>
+                <h1>Something went wrong...</h1>
                 {stakingOnChainData.error}
             </div>
         );
@@ -55,7 +56,7 @@ export const StakingWidget: FC = () => {
         const amount = new BN(stakingOnChainData?.userTotal || '0').mul(MBS_DECIMALS_MULTIPLE);
         Content = (
             <>
-                <h2>Staking Program Details</h2>
+                <h1>Staking Program Details</h1>
                 <ul className="staking-data-cards">
                     {[
                         { t: 'User Total (MBS)', v: stakingOnChainData?.userTotal?.toString() },
@@ -68,20 +69,32 @@ export const StakingWidget: FC = () => {
                     ].map(({ t, v }) => (
                         <li key={t}>
                             <span style={{ fontWeight: 'bold' }}>{t}: </span>
-                            <h3 style={{ color: 'green' }}>{v ? v : 'loading...'}</h3>
+                            <p style={{ color: 'green' }}>{v ? v : 'loading...'}</p>
                         </li>
                     ))}
                 </ul>
-                <Button
-                    type="button"
-                    disabled={false === amount.gt(new BN(0))}
-                    variant="contained"
-                    color="primary"
-                    onClick={() => service?.unStake(amount)}
-                    size="large"
-                >
-                    Unstake
-                </Button>
+                {txnSignature ? (
+                    <>
+                        <h2>Unstake succeeded! </h2>
+                        <p>
+                            See transaction record: <a href={`https://solscan.io/tx/${txnSignature}`}>{txnSignature}</a>
+                        </p>
+                    </>
+                ) : (
+                    <button
+                        type="button"
+                        disabled={false === amount.gt(new BN(0))}
+                        onClick={() =>
+                            service
+                                ?.unStake(amount)
+                                .then((sig) => setTxnSignature(sig))
+                                .catch(console.error)
+                        }
+                        className="button"
+                    >
+                        Unstake
+                    </button>
+                )}
             </>
         );
     }

@@ -4,6 +4,25 @@ body {
         'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background: linear-gradient(90deg, rgba(18, 16, 49, 1) 0%, rgba(31, 28, 83, 1) 50%, rgba(18, 16, 49, 1) 100%);
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    font-weight: 400;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.64;
+    letter-spacing: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Bebas Neue', sans-serif;
+    color: white;
+    font-weight: 600;
 }
 
 code {
@@ -19,18 +38,28 @@ code {
 
 .header {
     grid-row: 1 / 2;
-    background: #d8bfd8;
     color: #ffffff;
     padding: 1em;
     display: flex;
     justify-content: right;
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    -webkit-tap-highlight-color: transparent;
+    line-height: inherit;
+    user-select: none;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+    border-color: #e5e7eb;
+    background-color: rgb(42 42 105);
+    box-shadow: 0 2px 6px 0 #110f2c, inset 0 1px 0 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 0 rgba(0, 0, 0, 0.5);
 }
 
 .main {
     grid-row: 2 / 3;
-    background-color: #f5f5f5;
     color: #212121;
-    padding: 0.5em;
+    padding: 1em;
     display: flex;
     flex-direction: column;
     align-content: center;
