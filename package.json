@@ -3,7 +3,7 @@
     "private": true,
     "repository": "https://github.com/monkeyleague-oss/solana-unstake-dapp",
     "license": "MIT",
-    "homepage": "https://monkeyleague-oss.github.io/solana-unstake-dapp",
+    "homepage": "http://solana-unstake.monkeyleague.io/",
     "files": [
         "public",
         "src",

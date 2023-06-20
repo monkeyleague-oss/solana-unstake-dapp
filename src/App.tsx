@@ -22,7 +22,7 @@ const App: FC = () => {
                     <a className="link-item" href="https://github.com/monkeyleague-oss/solana-unstake-dapp">
                         Github
                     </a>
-                    <a className="link-item" href="/solana-unstake-dapp/legal.html">
+                    <a className="link-item" href="/legal.html">
                         Terms Of Use
                     </a>
                 </div>
