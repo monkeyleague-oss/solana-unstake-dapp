@@ -3,7 +3,7 @@
 MonkeyLeague® unstaking dApp, for wallet holders who staked MBS tokens as part of the June 2022 Staking Program. 
 
 ## ⚠️ IMPORTANT ⚠️
-This dApp is currently a **work in progress**. While we have endeavored to ensure the highest level of accuracy and reliability, we cannot guarantee that the dApp is entirely free from bugs or errors.
+While we have endeavored to ensure the highest level of accuracy and reliability, we cannot guarantee that the dApp is entirely free from bugs or errors.
 If you encounter any issues or bugs during your use of the application, please feel free to [open an issue](https://github.com/monkeyleague-oss/solana-unstake-dapp/issues).
 
 <hr/>
