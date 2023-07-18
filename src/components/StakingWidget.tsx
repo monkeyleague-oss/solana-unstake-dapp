@@ -80,7 +80,7 @@ export const StakingWidget: FC = () => {
             </div>
         );
     } else {
-        const amount = new BN(stakingOnChainData?.userTotal || '0').mul(MBS_DECIMALS_MULTIPLE);
+        const unstakeAmount = stakingOnChainData?.userPoolSharesAmount || new BN(0);
 
         const splitAmountWithCommas = (amount: string | undefined) => {
             const balanceSplit = amount?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -123,15 +123,15 @@ export const StakingWidget: FC = () => {
                     <button
                         onClick={() =>
                             service
-                                ?.unStake(amount)
+                                ?.unStake(unstakeAmount)
                                 .then((sig) => setTxnSignature(sig))
                                 .catch(console.error)
                         }
-                        disabled={false === amount.gt(new BN(0))}
+                        disabled={false === unstakeAmount.gt(new BN(0))}
                         className="flex flex-col text-5xl font-action font-bold italic shadow-highlight cursor-pointer bg-[#e83c8d] select-none w-[18rem] h-[5rem] text-center text-sunny uppercase"
                         style={{
                             ...pinkPropsStyle,
-                            cursor: false === amount.gt(new BN(0)) ? 'not-allowed' : 'pointer',
+                            cursor: false === unstakeAmount.gt(new BN(0)) ? 'not-allowed' : 'pointer',
                         }}
                     >
                         <p className="m-auto leading-[2rem] pb-1 text-[#ffcf00]">Unstake</p>

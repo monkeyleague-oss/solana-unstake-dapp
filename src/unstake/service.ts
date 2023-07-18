@@ -73,6 +73,7 @@ export type StakingProgramData = {
     vaultTotal: BN;
     userTotal: BN;
     userRewards: BN;
+    userPoolSharesAmount: BN;
     accounts: {
         program: PublicKey;
         staking: PublicKey;
@@ -129,12 +130,14 @@ export function createUnStakeService(
         };
         const vaultTotal = new BN(accounts.vault.amount.toString()).div(MBS_DECIMALS_MULTIPLE);
         const userTotal = accounts.userAccount?.amount.div(MBS_DECIMALS_MULTIPLE) || new BN('0');
+        const userPoolSharesAmount = new BN(accounts.userAccount?.poolSharesAmount as any);
         const userRewards = new BN(accounts.vault.amount.toString())
-            .mul(new BN(accounts.userAccount?.poolSharesAmount as any))
+            .mul(userPoolSharesAmount)
             .div(new BN(accounts.stakingAccount.totalPoolShares as any))
             .sub(new BN(accounts.userAccount?.amount as any))
             .div(new BN(MBS_DECIMALS_MULTIPLE));
         return {
+            userPoolSharesAmount,
             vaultTotal,
             userTotal,
             userRewards,
